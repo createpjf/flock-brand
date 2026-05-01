@@ -6,6 +6,24 @@ versioning follows [SemVer](https://semver.org/) (MAJOR.MINOR.PATCH).
 
 ---
 
+## [1.2.0] — 2026-05-01
+
+### Added
+- **Cursor plugin manifest** at `.cursor-plugin/plugin.json` — mirrors `.claude-plugin/` so Cursor can install via the same plugin format
+- **Multi-agent install instructions** in README — one-paste blocks for Claude Code, Cursor, Codex CLI, generic agents, and direct (no-agent) asset use
+- **"The flow" section** in README — documents the 5-stage pipeline (Detect → Intake → Plan → Generate → Iterate) with per-stage trigger / loaded-files / user-visible columns
+- **"What you can ask for" matrix** in README — maps each artifact type to its default mode, style, output format, and named layouts
+- **"See it work" worked example** in README — full conversational transcript from `/flock-brand` invocation through Q1–Q4 → Plan → Generate
+
+### Changed
+- README expanded from 80 to ~190 lines, restructured around "Quick install per agent" as the lead section
+- Repository layout diagram now includes `.cursor-plugin/`
+
+### Notes
+- No changes to `SKILL.md`, `references/`, `assets/`, or any brand rules. Existing v1.1.0 installations behave identically.
+
+---
+
 ## [1.1.0] — 2026-05-01
 
 ### Added
