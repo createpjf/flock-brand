@@ -1,0 +1,285 @@
+/* =========================================================================
+ * FLock.io Brand — Design Tokens
+ * Single source of truth. Drop into any web project via @import or <link>.
+ * ========================================================================= */
+
+/* ---------- CJK Webfont: Alibaba PuHuiTi 3.0 ----------
+ * Self-hosted from ./fonts/. unicode-range limits download to CJK glyphs
+ * so Latin runs stay in TWK Everett / Inter without triggering this font.
+ * License: Alibaba free commercial use. Source: https://www.alibabafonts.com
+ * Adjust the url() base path to match where you serve assets/fonts/ from.
+ */
+@font-face {
+  font-family: 'Alibaba PuHuiTi 3.0';
+  src: url('./fonts/AlibabaPuHuiTi-3-55-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+3000-303F, U+4E00-9FFF, U+FF00-FFEF, U+3400-4DBF;
+}
+@font-face {
+  font-family: 'Alibaba PuHuiTi 3.0';
+  src: url('./fonts/AlibabaPuHuiTi-3-65-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+3000-303F, U+4E00-9FFF, U+FF00-FFEF, U+3400-4DBF;
+}
+@font-face {
+  font-family: 'Alibaba PuHuiTi 3.0';
+  src: url('./fonts/AlibabaPuHuiTi-3-75-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+3000-303F, U+4E00-9FFF, U+FF00-FFEF, U+3400-4DBF;
+}
+@font-face {
+  font-family: 'Alibaba PuHuiTi 3.0';
+  src: url('./fonts/AlibabaPuHuiTi-3-85-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+3000-303F, U+4E00-9FFF, U+FF00-FFEF, U+3400-4DBF;
+}
+
+:root {
+  /* ---------- Primary Palette (PDF-canonical) ---------- */
+  --flock-brand-blue:  #3773FF;
+  --flock-black:       #000000;
+  --flock-off-white:   #F2F2F2;
+  --flock-white:       #FFFFFF;
+
+  /* ---------- Secondary Palette (PDF-canonical, accents only) ---------- */
+  --flock-orange:      #FF8B00;
+  --flock-turquoise:   #03BFD4;
+  --flock-purple:      #9C59F3;
+
+  /* ---------- Extended (NOT in official PDF) ---------- */
+  --flock-green:       #22B473;   /* success states */
+  --flock-border:      #E0E4F0;   /* 1px border on white cards */
+  --flock-surface:     #F8F8F8;   /* optional softer page when cards sit on Off White */
+
+  /* Pillar tints (Extended) */
+  --flock-tint-blue:   #98B8F8;
+  --flock-tint-teal:   #B8E8F0;
+  --flock-tint-purple: #D0B8F8;
+  --flock-tint-orange: #F8D0A8;
+
+  /* ---------- Semantic Tokens — Dark Mode (Default) ---------- */
+  --flock-bg-dark:        #000000;
+  --flock-bg-light:       #F2F2F2;
+  --flock-bg-brand:       #3773FF;
+  --flock-text-on-dark:   #FFFFFF;
+  --flock-text-on-light:  #000000;
+  --flock-text-on-brand:  #FFFFFF;
+
+  /* Page-level helpers */
+  --flock-bg-page:        var(--flock-bg-dark);
+  --flock-bg-card:        var(--flock-white);
+  --flock-bg-card-dark:   #0A0A0A;
+  --flock-heading-on-light: var(--flock-brand-blue);
+
+  /* ---------- Typography ---------- */
+  --flock-font-primary:
+    'TWK Everett', 'Inter', 'SF Pro Display',
+    'Alibaba PuHuiTi 3.0',
+    'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', 'Source Han Sans SC',
+    'Microsoft YaHei',
+    'Helvetica Neue', 'Arial', sans-serif;
+
+  --flock-font-mono:
+    'SF Mono', 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+  /* Type Scale (PDF-canonical) */
+  --flock-text-h1:   64px;
+  --flock-text-h2:   48px;
+  --flock-text-h3:   36px;
+  --flock-text-body: 24px;
+  /* Extended */
+  --flock-text-caption: 14px;
+  --flock-text-data:    12px;
+
+  /* Line heights */
+  --flock-lh-tight:    1.0;   /* H1, H2 */
+  --flock-lh-normal:   1.2;   /* H3, body */
+  --flock-lh-relaxed:  1.4;   /* caption, data, CJK body */
+
+  /* Tracking */
+  --flock-tracking-tight:  -0.04em;   /* H1, H2 */
+  --flock-tracking-normal: -0.03em;   /* H3, body */
+  --flock-tracking-cjk:    -0.01em;   /* CJK headings (override on :lang(zh)) */
+
+  /* ---------- Spacing ---------- */
+  --flock-space-xs:  4px;
+  --flock-space-sm:  8px;
+  --flock-space-md:  16px;
+  --flock-space-lg:  24px;
+  --flock-space-xl:  32px;
+  --flock-space-2xl: 48px;
+  --flock-space-3xl: 64px;
+
+  /* ---------- Border Radius ---------- */
+  --flock-radius-sm: 4px;
+  --flock-radius-md: 8px;
+  --flock-radius-lg: 12px;
+  --flock-radius-xl: 16px;
+
+  /* ---------- Grid Texture (Extended) ---------- */
+  --flock-grid-color:   #E0E4F0;
+  --flock-grid-opacity: 0.06;
+  --flock-grid-size:    40px;
+}
+
+/* =========================================================================
+ * Utility Classes
+ * ========================================================================= */
+
+/* Page modes */
+.flock-page-dark   { background: var(--flock-bg-dark);   color: var(--flock-text-on-dark); }
+.flock-page-light  { background: var(--flock-bg-light);  color: var(--flock-text-on-light); }
+.flock-page-brand  { background: var(--flock-bg-brand);  color: var(--flock-text-on-brand); }
+
+/* Headings — Latin */
+.flock-h1, .flock-h2, .flock-h3, .flock-body {
+  font-family: var(--flock-font-primary);
+}
+.flock-h1 {
+  font-weight: 700;
+  font-size: var(--flock-text-h1);
+  line-height: var(--flock-lh-tight);
+  letter-spacing: var(--flock-tracking-tight);
+}
+.flock-h2 {
+  font-weight: 500;
+  font-size: var(--flock-text-h2);
+  line-height: var(--flock-lh-tight);
+  letter-spacing: var(--flock-tracking-tight);
+}
+.flock-h3 {
+  font-weight: 500;
+  font-size: var(--flock-text-h3);
+  line-height: var(--flock-lh-normal);
+  letter-spacing: var(--flock-tracking-normal);
+}
+.flock-body {
+  font-weight: 400;
+  font-size: var(--flock-text-body);
+  line-height: var(--flock-lh-normal);
+  letter-spacing: var(--flock-tracking-normal);
+}
+.flock-caption {
+  font-family: var(--flock-font-primary);
+  font-weight: 400;
+  font-size: var(--flock-text-caption);
+  line-height: var(--flock-lh-relaxed);
+  letter-spacing: normal;
+}
+.flock-data {
+  font-family: var(--flock-font-mono);
+  font-weight: 400;
+  font-size: var(--flock-text-data);
+  line-height: var(--flock-lh-relaxed);
+  letter-spacing: normal;
+}
+
+/* Heading color rules per mode */
+.flock-page-light .flock-h1,
+.flock-page-light .flock-h2 { color: var(--flock-brand-blue); }
+.flock-page-light .flock-h3,
+.flock-page-light .flock-body { color: var(--flock-text-on-light); }
+.flock-page-dark  .flock-h1,
+.flock-page-dark  .flock-h2,
+.flock-page-dark  .flock-h3,
+.flock-page-dark  .flock-body { color: var(--flock-text-on-dark); }
+
+/* CJK relax — applies to any :lang(zh) descendant */
+:lang(zh) {
+  letter-spacing: var(--flock-tracking-cjk);
+  line-height: var(--flock-lh-relaxed);
+  font-feature-settings: "palt" 1;
+}
+:lang(zh).flock-h1, :lang(zh) .flock-h1,
+:lang(zh).flock-h2, :lang(zh) .flock-h2 {
+  line-height: 1.1;
+}
+
+/* Card */
+.flock-card {
+  background: var(--flock-bg-card);
+  border: 1px solid var(--flock-border);
+  border-radius: var(--flock-radius-lg);
+  padding: var(--flock-space-lg);
+}
+.flock-page-dark .flock-card {
+  background: var(--flock-bg-card-dark);
+  border-color: #1A1A1A;
+}
+
+/* Badge */
+.flock-badge {
+  display: inline-flex;
+  align-items: center;
+  background: var(--flock-brand-blue);
+  color: var(--flock-text-on-brand);
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-family: var(--flock-font-primary);
+  font-size: var(--flock-text-caption);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+/* Buttons */
+.flock-btn-primary {
+  background: var(--flock-brand-blue);
+  color: var(--flock-text-on-brand);
+  padding: 12px 24px;
+  border-radius: var(--flock-radius-md);
+  border: 0;
+  font-family: var(--flock-font-primary);
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+.flock-btn-primary:hover { filter: brightness(1.08); }
+
+.flock-btn-secondary {
+  background: transparent;
+  color: var(--flock-brand-blue);
+  border: 1px solid var(--flock-brand-blue);
+  padding: 12px 24px;
+  border-radius: var(--flock-radius-md);
+  font-family: var(--flock-font-primary);
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+}
+
+/* Subtle grid texture overlay */
+.flock-grid-bg {
+  position: relative;
+}
+.flock-grid-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--flock-grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--flock-grid-color) 1px, transparent 1px);
+  background-size: var(--flock-grid-size) var(--flock-grid-size);
+  opacity: var(--flock-grid-opacity);
+  pointer-events: none;
+  z-index: 0;
+}
+.flock-grid-bg > * { position: relative; z-index: 1; }
+
+/* Pillar accent classes */
+.flock-pillar-01 { color: var(--flock-brand-blue); }
+.flock-pillar-02 { color: var(--flock-turquoise); }
+.flock-pillar-03 { color: var(--flock-purple); }
+.flock-pillar-01-bg { background: var(--flock-tint-blue); }
+.flock-pillar-02-bg { background: var(--flock-tint-teal); }
+.flock-pillar-03-bg { background: var(--flock-tint-purple); }

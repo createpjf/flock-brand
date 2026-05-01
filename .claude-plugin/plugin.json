@@ -1,0 +1,22 @@
+{
+  "name": "flock-brand",
+  "description": "FLock.io official brand identity for any artifact — PPTX, DOCX, HTML, infographics, social. Dark + Light modes, CJK fonts, 18 layout patterns. Runs a 4-question intake when context is sparse.",
+  "version": "1.1.0",
+  "author": {
+    "name": "createpjf",
+    "url": "https://github.com/createpjf"
+  },
+  "repository": "https://github.com/createpjf/flock-brand",
+  "homepage": "https://github.com/createpjf/flock-brand",
+  "license": "MIT",
+  "keywords": [
+    "flock",
+    "flock-io",
+    "brand",
+    "design-system",
+    "claude-code",
+    "skill",
+    "pptx",
+    "design-tokens"
+  ]
+}

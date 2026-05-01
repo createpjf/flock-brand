@@ -1,0 +1,23 @@
+Alibaba PuHuiTi 3.0 (阿里巴巴普惠体 3.0)
+==========================================
+
+Source:  https://www.alibabafonts.com/#/font
+Mirror:  jsDelivr CDN (npm: alibabapuhuiti-3-{weight})
+License: Alibaba free commercial use license — no separate authorization required.
+         Use freely in commercial products, no royalty, no attribution mandatory.
+
+Files in this directory (4 of 9 official weights):
+  - AlibabaPuHuiTi-3-55-Regular.woff2   (5.3 MB) — body, caption
+  - AlibabaPuHuiTi-3-65-Medium.woff2    (5.5 MB) — H3, subhead
+  - AlibabaPuHuiTi-3-75-SemiBold.woff2  (5.5 MB) — H2
+  - AlibabaPuHuiTi-3-85-Bold.woff2      (5.6 MB) — H1
+
+To add other weights (35 Thin, 45 Light, 95 ExtraBold, 105 Heavy):
+  curl -sSL -o AlibabaPuHuiTi-3-XX-WEIGHT.woff2 \
+    "https://cdn.jsdelivr.net/npm/alibabapuhuiti-3-XX-weight@1.0.0/AlibabaPuHuiTi-3-XX-WEIGHT.woff2"
+
+  Replace XX-weight with: 35-thin, 45-light, 95-extrabold, 105-heavy
+  Filename casing follows the package's actual filename (capitalized weight name).
+
+Also available formats from the same CDN packages: .otf .ttf .woff .eot
+WOFF2 is preferred for web — best compression, supported by all modern browsers.
