@@ -528,6 +528,12 @@ body.low-power [data-anim] { opacity: 1 !important; transform: none !important; 
 <canvas id="bg-light" class="bg"></canvas>
 
 <div id="hint">← → NAV · B STATIC · ESC INDEX</div>
+<script>
+(function(){
+  var hint = document.getElementById('hint');
+  if (hint) hint.textContent = '\u2190 \u2192 NAV \u00b7 B ' + (window.__lowPowerMode ? 'ANIM' : 'STATIC') + ' \u00b7 ESC INDEX';
+})();
+</script>
 
 <!-- ============================================================
      SLIDES

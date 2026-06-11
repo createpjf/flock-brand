@@ -295,14 +295,30 @@ def generate_image(prompt: str, slot: str, size: str = "1792x1024") -> str:
     urllib.request.urlretrieve(result.data[0].url, path)
     return path
 
-def update_html_slot(html_path: str, slot: str, img_path: str):
-    """通过 data-image-slot 找到 <img> 并更新 src"""
+def update_html_slot(html_path: str, slot: str, img_path: str, alt: str = ""):
+    """通过 data-image-slot 找到 <img> 并更新 src, alt；移除占位属性"""
     with open(html_path) as f:
         html = f.read()
+
+    def _replace_img(m):
+        tag = m.group(0)
+        # Update src attribute
+        tag = re.sub(r'src="[^"]*"', f'src="{img_path}"', tag)
+        # Update alt attribute to real description
+        if alt:
+            tag = re.sub(r'alt="[^"]*"', f'alt="{alt}"', tag)
+        # Remove placeholder opacity style
+        tag = re.sub(r'\s*style="opacity:\s*0\.15"', '', tag)
+        return tag
+
     html = re.sub(
-        rf'(<figure[^>]*data-image-slot="{re.escape(slot)}"[^>]*>.*?<img)[^>]*(>)',
-        rf'\1 src="{img_path}"\2',
+        rf'(<figure[^>]*data-image-slot="{re.escape(slot)}"[^>]*>.*?<img[^>]*>)',
+        _replace_img,
         html, flags=re.DOTALL
+    )
+    # Remove data-image-slot from the figure after successful replacement
+    html = re.sub(
+        rf'\s*data-image-slot="{re.escape(slot)}"', '', html
     )
     with open(html_path, "w") as f:
         f.write(html)

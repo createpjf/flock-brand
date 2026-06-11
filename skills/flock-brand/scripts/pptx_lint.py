@@ -59,8 +59,8 @@ ALLOWED = {
 }
 
 SP_RE = re.compile(rb'<p:sp>.*?</p:sp>', re.DOTALL)
-OFF_RE = re.compile(rb'<a:off x="(\d+)" y="(\d+)"/>')
-EXT_RE = re.compile(rb'<a:ext cx="(\d+)" cy="(\d+)"/>')
+OFF_RE = re.compile(rb'<a:off x="(-?\d+)" y="(-?\d+)"\s*/>')
+EXT_RE = re.compile(rb'<a:ext cx="(\d+)" cy="(\d+)"\s*/>')
 TXT_RE = re.compile(rb'<a:t>([^<]*)</a:t>')
 CLR_RE = re.compile(rb'srgbClr val="([0-9A-Fa-f]{6})"')
 
@@ -81,56 +81,60 @@ def boxes(xml):
 
 def lint(path, do_colors=True, do_geom=True):
     issues = defaultdict(list)
-    zf = zipfile.ZipFile(path)
-    slides = sorted(
-        (n for n in zf.namelist() if re.match(r"ppt/slides/slide\d+\.xml$", n)),
-        key=lambda n: int(re.search(r"(\d+)", n).group()),
-    )
-    for name in slides:
-        sn = int(re.search(r"(\d+)", name).group())
-        xml = zf.read(name)
+    with zipfile.ZipFile(path) as zf:
+        slides = sorted(
+            (n for n in zf.namelist() if re.match(r"ppt/slides/slide\d+\.xml$", n)),
+            key=lambda n: int(re.search(r"(\d+)", n).group()),
+        )
+        for name in slides:
+            sn = int(re.search(r"(\d+)", name).group())
+            xml = zf.read(name)
 
-        if do_colors:
-            for c in {c.decode().upper() for c in CLR_RE.findall(xml)}:
-                if c in REMAP:
-                    issues[sn].append(f"[P0:COLOR] #{c} → 应改为 #{REMAP[c]}")
-                elif c not in ALLOWED:
-                    issues[sn].append(f"[P1:COLOR] #{c} 未知色,人工确认（不在 FLock 调色板）")
+            if do_colors:
+                # NOTE: CLR_RE matches srgbClr anywhere in the slide XML, including
+                # theme overrides and non-visible elements. P0 REMAP hits target
+                # specific off-brand hex values unlikely in theme plumbing; P1 for
+                # unknown colors is advisory and requires manual confirmation.
+                for c in {c.decode().upper() for c in CLR_RE.findall(xml)}:
+                    if c in REMAP:
+                        issues[sn].append(f"[P0:COLOR] #{c} → 应改为 #{REMAP[c]}")
+                    elif c not in ALLOWED:
+                        issues[sn].append(f"[P1:COLOR] #{c} 未知色,人工确认（不在 FLock 调色板）")
 
-        if do_geom:
-            bs = boxes(xml)
-            for x, y, cx, cy, t in bs:
-                if cx == 0 or cy == 0:
-                    continue
-                if t and (x + cx > EMU_SLIDE_W or y + cy > EMU_SLIDE_H):
-                    issues[sn].append(f"[P0:OVERFLOW] '{t[:24]}' 超出画布 (ends {x+cx},{y+cy})")
-                elif y + cy > EMU_SLIDE_H - SAFE and t:
-                    issues[sn].append(f"[P1:EDGE] '{t[:24]}' 贴底边 <0.15in")
-            # 文字 bbox 两两相交（只查都有文字的,忽略装饰形状）
-            txt_bs = [(x, y, cx, cy, t) for x, y, cx, cy, t in bs if t and cx > 0]
-            for i in range(len(txt_bs)):
-                for j in range(i + 1, len(txt_bs)):
-                    a, b = txt_bs[i], txt_bs[j]
-                    ox = min(a[0] + a[2], b[0] + b[2]) - max(a[0], b[0])
-                    oy = min(a[1] + a[3], b[1] + b[3]) - max(a[1], b[1])
-                    if ox > 0 and oy > 0:
-                        # 重叠面积超过较小框 15% 才报,容忍轻微贴靠
-                        if ox * oy > 0.40 * min(a[2] * a[3], b[2] * b[3]):
-                            # 跳过同位置 frame+text 组合（一个无意义包含另一个全部）
-                            if a[:4] == b[:4]:
-                                continue
-                            issues[sn].append(
-                                f"[P1:OVERLAP] '{a[4][:18]}' × '{b[4][:18]}'（bbox 相交,需人工目视确认）"
-                            )
-            # footer 撞页码
-            page_nums = [(x, y, cx, cy, t) for x, y, cx, cy, t in txt_bs
-                         if PAGE_NUM_RE.match(t) and y > EMU_SLIDE_H * 0.88]
-            wide = [(x, y, cx, cy, t) for x, y, cx, cy, t in txt_bs
-                    if cx > EMU_SLIDE_W * 0.7 and y > EMU_SLIDE_H * 0.85]
-            for px, py, pcx, pcy, pt in page_nums:
-                for wx, wy, wcx, wcy, wt in wide:
-                    if wx + wcx > px and wx < px + pcx:
-                        issues[sn].append(f"[P1:FOOTER] 宽 footer '{wt[:20]}' 横向覆盖页码 '{pt}'")
+            if do_geom:
+                bs = boxes(xml)
+                for x, y, cx, cy, t in bs:
+                    if cx == 0 or cy == 0:
+                        continue
+                    if t and (x + cx > EMU_SLIDE_W or y + cy > EMU_SLIDE_H):
+                        issues[sn].append(f"[P0:OVERFLOW] '{t[:24]}' 超出画布 (ends {x+cx},{y+cy})")
+                    elif y + cy > EMU_SLIDE_H - SAFE and t:
+                        issues[sn].append(f"[P1:EDGE] '{t[:24]}' 贴底边 <0.15in")
+                # 文字 bbox 两两相交（只查都有文字的,忽略装饰形状）
+                txt_bs = [(x, y, cx, cy, t) for x, y, cx, cy, t in bs if t and cx > 0]
+                for i in range(len(txt_bs)):
+                    for j in range(i + 1, len(txt_bs)):
+                        a, b = txt_bs[i], txt_bs[j]
+                        ox = min(a[0] + a[2], b[0] + b[2]) - max(a[0], b[0])
+                        oy = min(a[1] + a[3], b[1] + b[3]) - max(a[1], b[1])
+                        if ox > 0 and oy > 0:
+                            # 重叠面积超过较小框 40% 才报,容忍轻微贴靠
+                            if ox * oy > 0.40 * min(a[2] * a[3], b[2] * b[3]):
+                                # 跳过同位置 frame+text 组合（一个无意义包含另一个全部）
+                                if a[:4] == b[:4]:
+                                    continue
+                                issues[sn].append(
+                                    f"[P1:OVERLAP] '{a[4][:18]}' × '{b[4][:18]}'（bbox 相交,需人工目视确认）"
+                                )
+                # footer 撞页码
+                page_nums = [(x, y, cx, cy, t) for x, y, cx, cy, t in txt_bs
+                             if PAGE_NUM_RE.match(t) and y > EMU_SLIDE_H * 0.88]
+                wide = [(x, y, cx, cy, t) for x, y, cx, cy, t in txt_bs
+                        if cx > EMU_SLIDE_W * 0.7 and y > EMU_SLIDE_H * 0.85]
+                for px, py, pcx, pcy, pt in page_nums:
+                    for wx, wy, wcx, wcy, wt in wide:
+                        if wx + wcx > px and wx < px + pcx:
+                            issues[sn].append(f"[P1:FOOTER] 宽 footer '{wt[:20]}' 横向覆盖页码 '{pt}'")
     return issues
 
 
