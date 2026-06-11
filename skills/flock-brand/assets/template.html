@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[REPLACE] Deck Title · FLock.io</title>
+
+<!-- Fonts: Inter (primary) + Noto Sans SC (CJK fallback until Alibaba PuHuiTi loads) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   FLock Brand Design Tokens (inlined from assets/tokens.css)
+   For any deliverable built from this template:
+   - Colors must match exactly (Iron Rule §1–3)
+   - Tracking is mandatory (Iron Rule §4)
+   - Dark mode default (Iron Rule §5)
+   Full token source: ../assets/tokens.css
+   ============================================================ */
+@font-face {
+  font-family: 'Alibaba PuHuiTi 3.0';
+  src: url('../assets/fonts/AlibabaPuHuiTi-3-55-Regular.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+  unicode-range: U+3000-303F, U+4E00-9FFF, U+FF00-FFEF, U+3400-4DBF;
+}
+@font-face {
+  font-family: 'Alibaba PuHuiTi 3.0';
+  src: url('../assets/fonts/AlibabaPuHuiTi-3-65-Medium.woff2') format('woff2');
+  font-weight: 500; font-style: normal; font-display: swap;
+  unicode-range: U+3000-303F, U+4E00-9FFF, U+FF00-FFEF, U+3400-4DBF;
+}
+@font-face {
+  font-family: 'Alibaba PuHuiTi 3.0';
+  src: url('../assets/fonts/AlibabaPuHuiTi-3-75-SemiBold.woff2') format('woff2');
+  font-weight: 600; font-style: normal; font-display: swap;
+  unicode-range: U+3000-303F, U+4E00-9FFF, U+FF00-FFEF, U+3400-4DBF;
+}
+@font-face {
+  font-family: 'Alibaba PuHuiTi 3.0';
+  src: url('../assets/fonts/AlibabaPuHuiTi-3-85-Bold.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+  unicode-range: U+3000-303F, U+4E00-9FFF, U+FF00-FFEF, U+3400-4DBF;
+}
+
+:root {
+  /* Primary palette */
+  --f-blue:        #3773FF;
+  --f-blue-rgb:    55, 115, 255;
+  --f-black:       #000000;
+  --f-black-rgb:   0, 0, 0;
+  --f-off-white:   #F2F2F2;
+  --f-off-white-rgb: 242, 242, 242;
+  --f-white:       #FFFFFF;
+  --f-white-rgb:   255, 255, 255;
+
+  /* Secondary accents */
+  --f-orange:      #FF8B00;
+  --f-turquoise:   #03BFD4;
+  --f-purple:      #9C59F3;
+
+  /* Tints */
+  --f-tint-blue:   #98B8F8;
+
+  /* Typography */
+  --f-font: 'TWK Everett', 'Inter', 'SF Pro Display',
+            'Alibaba PuHuiTi 3.0',
+            'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei',
+            'Helvetica Neue', 'Arial', sans-serif;
+  --f-font-mono: 'SF Mono', 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+  /* Type scale */
+  --f-h1:      clamp(48px, 6.5vw, 96px);
+  --f-h2:      clamp(36px, 4.2vw, 64px);
+  --f-h3:      clamp(24px, 2.8vw, 42px);
+  --f-body:    clamp(16px, 1.6vw, 24px);
+  --f-caption: clamp(12px, 1.0vw, 16px);
+  --f-data:    clamp(11px, 0.85vw, 14px);
+
+  /* Tracking — Iron Rule §4, NEVER skip */
+  --f-track-h12:  -0.04em;  /* H1, H2 */
+  --f-track-h3b:  -0.03em;  /* H3, body */
+  --f-track-mono:  0.08em;  /* mono captions, labels */
+  --f-track-cjk:  -0.01em;  /* CJK headings */
+
+  /* Spacing */
+  --f-space-xs:  4px;
+  --f-space-sm:  8px;
+  --f-space-md:  16px;
+  --f-space-lg:  24px;
+  --f-space-xl:  40px;
+  --f-space-2xl: 64px;
+
+  /* Radius */
+  --f-r-sm:  4px;
+  --f-r-md:  8px;
+  --f-r-lg:  12px;
+
+  /* Deck baselines (deck-layouts.md §1) */
+  --f-action-top:    0.5in;
+  --f-body-top:      1.4in;
+  --f-source-bottom: 0.3in;
+
+  /* ===== Motion tokens — checklist.md §P1 动效纪律 =====
+     时长只能来自这 5 个 bucket，不自创数值。
+     缓动只能用这 3 条曲线，不自创 cubic-bezier。 */
+  --f-dur-instant: 0ms;     /* 焦点态 / 错误态 — 不加过渡 */
+  --f-dur-micro:   110ms;   /* 即时反馈：按钮按下、圆点切换 */
+  --f-dur-minor:   200ms;   /* hover、焦点环出现、单属性淡入 */
+  --f-dur-major:   400ms;   /* 内容入场、slide 入场动效 */
+  --f-dur-page:    850ms;   /* 翻页位移（横向滑动） */
+
+  --f-ease-out:    cubic-bezier(0.16, 1, 0.30, 1);   /* 入场：减速到位 */
+  --f-ease-in:     cubic-bezier(0.70, 0, 0.84, 0);   /* 退场：加速离开 */
+  --f-ease-page:   cubic-bezier(0.77, 0, 0.175, 1);  /* 翻页位移专用 */
+}
+
+/* ============ Reset ============ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 100%; height: 100%; overflow: hidden;
+  background: var(--f-black);
+  color: var(--f-white);
+  font-family: var(--f-font);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ============ WebGL dual-canvas ============
+   bg-dark: Electric Blue (brand blue plasma on near-black)
+   bg-light: Off-White Pearl (FBM noise, F2F2F2 base, subtle blue shimmer)
+   Hero slides: transparent overlay → WebGL shows through
+   Content slides: solid background → WebGL invisible (FLock = controlled)
+*/
+canvas.bg {
+  position: fixed; inset: 0; width: 100vw; height: 100vh;
+  z-index: 0; display: block; transition: opacity var(--f-dur-page) var(--f-ease-out);
+}
+canvas#bg-light { opacity: 0; }
+canvas#bg-dark  { opacity: 1; }
+body.light-mode canvas#bg-light { opacity: 1; }
+body.light-mode canvas#bg-dark  { opacity: 0; }
+body.low-power canvas.bg { display: none !important; }
+
+/* ============ Deck + slide container ============ */
+#deck {
+  position: fixed; inset: 0; width: 10000vw; height: 100vh;
+  display: flex; flex-wrap: nowrap;
+  transition: transform var(--f-dur-page) var(--f-ease-page);
+  z-index: 10; will-change: transform;
+}
+
+/* ---- Base slide ---- */
+.slide {
+  width: 100vw; height: 100vh; flex: 0 0 100vw;
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* action-title | body | source */
+  padding: 0.5in 0.5in 0.45in;      /* deck-layouts.md baselines */
+  overflow: hidden;
+}
+
+/* Slide variants */
+.slide-dark  { background: var(--f-black);     color: var(--f-white); }
+.slide-light { background: var(--f-off-white);  color: var(--f-black); }
+.slide-brand { background: var(--f-blue);       color: var(--f-white); }
+
+/* Hero slides: thin overlay → WebGL visible */
+.slide-hero::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+}
+.slide-hero.slide-dark::before  { background: rgba(var(--f-black-rgb),   0.12); }
+.slide-hero.slide-light::before { background: rgba(var(--f-off-white-rgb), 0.18); }
+/* Top/bottom soft fade on hero so chrome is legible */
+.slide-hero::after {
+  content: "";
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+}
+.slide-hero.slide-dark::after {
+  background: linear-gradient(180deg,
+    rgba(var(--f-black-rgb), 0.42) 0%, rgba(var(--f-black-rgb), 0) 18%,
+    rgba(var(--f-black-rgb), 0) 82%, rgba(var(--f-black-rgb), 0.42) 100%
+  );
+}
+.slide-hero.slide-light::after {
+  background: linear-gradient(180deg,
+    rgba(var(--f-off-white-rgb), 0.42) 0%, rgba(var(--f-off-white-rgb), 0) 18%,
+    rgba(var(--f-off-white-rgb), 0) 82%, rgba(var(--f-off-white-rgb), 0.42) 100%
+  );
+}
+
+/* Content/non-hero: fully solid (no WebGL bleed) */
+.slide-dark:not(.slide-hero),
+.slide-light:not(.slide-hero),
+.slide-brand:not(.slide-hero) {
+  background: var(--f-black);
+}
+.slide-light:not(.slide-hero)  { background: var(--f-off-white); }
+.slide-brand:not(.slide-hero)  { background: var(--f-blue); }
+
+/* ============ FLock Typography ============
+   Iron Rule §4: NEVER default letter-spacing on headings.
+   Iron Rule §6: TWK Everett primary, Inter fallback.
+*/
+.f-h1 {
+  font-family: var(--f-font);
+  font-weight: 700;
+  font-size: var(--f-h1);
+  line-height: 1.0;
+  letter-spacing: var(--f-track-h12);
+}
+.f-h2 {
+  font-family: var(--f-font);
+  font-weight: 500;
+  font-size: var(--f-h2);
+  line-height: 1.05;
+  letter-spacing: var(--f-track-h12);
+}
+.f-h3 {
+  font-family: var(--f-font);
+  font-weight: 500;
+  font-size: var(--f-h3);
+  line-height: 1.2;
+  letter-spacing: var(--f-track-h3b);
+}
+.f-body {
+  font-family: var(--f-font);
+  font-weight: 400;
+  font-size: var(--f-body);
+  line-height: 1.55;
+  letter-spacing: var(--f-track-h3b);
+}
+.f-caption {
+  font-family: var(--f-font);
+  font-weight: 400;
+  font-size: var(--f-caption);
+  line-height: 1.4;
+  letter-spacing: var(--f-track-h3b);
+}
+.f-label {
+  font-family: var(--f-font-mono);
+  font-weight: 400;
+  font-size: var(--f-data);
+  letter-spacing: var(--f-track-mono);
+  text-transform: uppercase;
+}
+
+/* Color helpers */
+.blue      { color: var(--f-blue); }
+.dim       { opacity: 0.55; }
+.dim-2     { opacity: 0.72; }
+.orange    { color: var(--f-orange); }
+.turquoise { color: var(--f-turquoise); }
+.purple    { color: var(--f-purple); }
+.tint-blue { color: var(--f-tint-blue); }
+
+/* ============ Slide structure zones ============ */
+
+/* Action title row — deck-layouts.md: 0.5in from top */
+.action-title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--f-space-lg);
+  padding-bottom: var(--f-space-md);
+}
+.action-title .title {
+  font-family: var(--f-font);
+  font-weight: 500;
+  font-size: var(--f-body);
+  line-height: 1.3;
+  letter-spacing: var(--f-track-h3b);
+  max-width: 70%;
+}
+/* Use .f-h2 as action title on hero/section slides */
+
+/* Body area — flex: 1 (middle row) */
+.body-area {
+  display: flex;
+  flex-direction: column;
+  gap: var(--f-space-lg);
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Source line — deck-layouts.md: 0.3in from bottom */
+.source-line {
+  font-family: var(--f-font);
+  font-size: var(--f-caption);
+  letter-spacing: var(--f-track-mono);
+  text-transform: uppercase;
+  opacity: 0.45;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+/* ============ FLock Badge (content slides, top-right) ============
+   Iron Rule §8: always use assets/logos/ SVGs, never hand-draw.
+   Logo path: ../assets/logos/flock-lockup-white.svg (dark slides)
+              ../assets/logos/flock-lockup-black.svg (light slides)
+   Inline SVG below is the canonical white lockup, inlined for portability.
+*/
+.f-badge {
+  flex-shrink: 0;
+  height: 20px;
+  width: auto;
+  opacity: 0.85;
+}
+.slide-dark  .f-badge,
+.slide-hero.slide-dark .f-badge { color: var(--f-white); }
+.slide-light .f-badge { color: var(--f-black); }
+.slide-brand .f-badge { color: var(--f-white); }
+
+/* ============ 12-Column Grid ============
+   deck-layouts.md §1: standard splits
+*/
+.grid-12 { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--f-space-lg); align-items: start; }
+.col-4   { grid-column: span 4; }
+.col-5   { grid-column: span 5; }
+.col-6   { grid-column: span 6; }
+.col-7   { grid-column: span 7; }
+.col-8   { grid-column: span 8; }
+.col-10  { grid-column: span 10; }
+.col-12  { grid-column: span 12; }
+
+/* Named splits */
+.split-444 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--f-space-xl); align-items: start; }
+.split-66  { display: grid; grid-template-columns: 1fr 1fr;     gap: var(--f-space-xl); align-items: start; }
+.split-57  { display: grid; grid-template-columns: 5fr 7fr;     gap: var(--f-space-xl); align-items: start; }
+.split-75  { display: grid; grid-template-columns: 7fr 5fr;     gap: var(--f-space-xl); align-items: start; }
+.split-48  { display: grid; grid-template-columns: 4fr 8fr;     gap: var(--f-space-xl); align-items: start; }
+.split-3333{ display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: var(--f-space-lg); align-items: start; }
+
+/* ============ Components ============ */
+
+/* Stat card (deck-layouts.md #11 Hero Stat) */
+.stat-card {
+  display: flex; flex-direction: column; gap: var(--f-space-sm);
+  padding-top: var(--f-space-md);
+  border-top: 1px solid rgba(255,255,255,0.25);
+}
+.slide-light .stat-card { border-top-color: rgba(0,0,0,0.2); }
+.stat-card .stat-num {
+  font-family: var(--f-font);
+  font-weight: 700;
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 0.9;
+  letter-spacing: var(--f-track-h12);
+  font-variant-numeric: tabular-nums;
+}
+.stat-card .stat-label {
+  font-family: var(--f-font);
+  font-size: var(--f-caption);
+  letter-spacing: var(--f-track-mono);
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+.stat-card .stat-note {
+  font-size: var(--f-caption);
+  opacity: 0.72;
+  line-height: 1.45;
+}
+
+/* Callout / quote block */
+.callout {
+  border-left: 2px solid var(--f-blue);
+  padding: var(--f-space-lg) var(--f-space-xl);
+  background: rgba(var(--f-blue-rgb), 0.08);
+  border-radius: 0 var(--f-r-md) var(--f-r-md) 0;
+}
+.slide-light .callout { background: rgba(var(--f-blue-rgb), 0.06); }
+.callout .cite {
+  display: block;
+  margin-top: var(--f-space-md);
+  font-size: var(--f-caption);
+  letter-spacing: var(--f-track-mono);
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+/* Divider rule */
+.f-rule { width: 100%; height: 1px; background: currentColor; opacity: 0.2; }
+.f-rule-blue { background: var(--f-blue); opacity: 0.6; }
+
+/* Pillar chip (Sovereign / Operations / Gateway) */
+.pillar-chip {
+  display: inline-flex; align-items: center; gap: var(--f-space-sm);
+  padding: 4px 10px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: var(--f-data);
+  letter-spacing: var(--f-track-mono);
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+.pillar-sovereign  { color: var(--f-blue); }
+.pillar-operations { color: var(--f-turquoise); }
+.pillar-gateway    { color: var(--f-purple); }
+
+/* Process step */
+.process-step {
+  display: flex; flex-direction: column; gap: var(--f-space-sm);
+  padding-top: var(--f-space-md);
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+.slide-light .process-step { border-top-color: rgba(0,0,0,0.15); }
+.process-step .step-num {
+  font-family: var(--f-font-mono);
+  font-size: var(--f-caption);
+  color: var(--f-blue);
+  letter-spacing: var(--f-track-mono);
+}
+
+/* Section number (used in section divider) */
+.section-num {
+  font-family: var(--f-font);
+  font-weight: 300;
+  font-size: clamp(80px, 14vw, 200px);
+  line-height: 0.85;
+  letter-spacing: var(--f-track-h12);
+  color: var(--f-blue);
+  opacity: 0.18;
+  position: absolute;
+  right: 0.5in;
+  top: 50%;
+  transform: translateY(-50%);
+  user-select: none;
+}
+
+/* ============ Navigation ============ */
+#nav {
+  position: fixed; left: 50%; bottom: 2.6vh;
+  transform: translateX(-50%);
+  z-index: 30; display: flex; gap: 8px;
+  padding: 8px 14px; border-radius: 999px;
+  background: rgba(0,0,0,0.22);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+#nav .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(255,255,255,0.28);
+  cursor: pointer;
+  transition: background var(--f-dur-minor) var(--f-ease-out),
+              width var(--f-dur-minor) var(--f-ease-out),
+              transform var(--f-dur-micro) var(--f-ease-out);
+  border: 0; padding: 0;
+}
+#nav .dot:hover { background: rgba(255,255,255,0.55); transform: scale(1.2); }
+#nav .dot.active { background: var(--f-blue); width: 20px; border-radius: 999px; }
+body.light-mode #nav { background: rgba(242,242,242,0.3); }
+body.light-mode #nav .dot { background: rgba(0,0,0,0.22); }
+body.light-mode #nav .dot.active { background: var(--f-blue); }
+
+#hint {
+  position: fixed; bottom: 2.6vh; right: 3vw; z-index: 30;
+  font-family: var(--f-font-mono);
+  font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; opacity: 0.35; color: #aaa;
+}
+body.low-power #hint { opacity: 0.65; color: var(--f-white); }
+
+/* ============ ESC Overview ============ */
+#overview {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(14px);
+  display: none; overflow-y: auto;
+  padding: 4vh 4vw;
+}
+
+/* ============ Motion One Animation States ============
+   [data-anim] elements default opacity:1.
+   Once motion-ready class is added, JS owns visibility.
+   Low-power mode: all animations disabled, content instantly visible.
+*/
+[data-anim] { opacity: 1; }
+body.motion-ready [data-anim] { opacity: 0; }
+body.motion-ready [data-anim="left"]  { transform: translateX(-20px); }
+body.motion-ready [data-anim="right"] { transform: translateX(20px); }
+body.motion-ready [data-anim="up"]    { transform: translateY(-14px); }
+body.motion-ready [data-animate="pipeline"] [data-anim] { opacity: 0.12; }
+body.low-power #deck { transition: none !important; }
+body.low-power *, body.low-power *::before, body.low-power *::after {
+  animation: none !important; transition: none !important;
+}
+body.low-power.motion-ready [data-anim],
+body.low-power [data-anim] { opacity: 1 !important; transform: none !important; }
+
+/* ============ Responsive ============ */
+@media (max-width: 900px) {
+  .split-444, .split-3333 { grid-template-columns: 1fr 1fr; }
+  .split-57, .split-75, .split-48, .split-66 { grid-template-columns: 1fr; }
+  .f-h1 { font-size: clamp(36px, 8vw, 56px); }
+  .f-h2 { font-size: clamp(28px, 6vw, 42px); }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ Low-power mode bootstrap (runs before paint) ============ -->
+<script>
+(function(){
+  const KEY = 'flock-deck-low-power';
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const stored  = localStorage.getItem(KEY);
+  window.__lowPowerMode = stored === '1' || (stored === null && reduced);
+  window.__setLowPowerMode = function(on, opts={}) {
+    window.__lowPowerMode = !!on;
+    document.body.classList.toggle('low-power', window.__lowPowerMode);
+    if (opts.persist !== false) localStorage.setItem(KEY, window.__lowPowerMode ? '1' : '0');
+    if (window.__lowPowerMode && document.getAnimations)
+      document.getAnimations().forEach(a => a.cancel());
+    const hint = document.getElementById('hint');
+    if (hint) hint.textContent = `← → NAV · B ${window.__lowPowerMode ? 'ANIM' : 'STATIC'} · ESC INDEX`;
+    dispatchEvent(new CustomEvent('flock-low-power', {detail:{on:window.__lowPowerMode}}));
+    if (window.__playSlide) window.__playSlide(window.__currentSlideIndex || 0);
+  };
+  document.body.classList.toggle('low-power', window.__lowPowerMode);
+})();
+</script>
+
+<!-- WebGL canvases (z-index 0, behind everything) -->
+<canvas id="bg-dark"  class="bg"></canvas>
+<canvas id="bg-light" class="bg"></canvas>
+
+<div id="hint">← → NAV · B STATIC · ESC INDEX</div>
+<script>
+(function(){
+  var hint = document.getElementById('hint');
+  if (hint) hint.textContent = '\u2190 \u2192 NAV \u00b7 B ' + (window.__lowPowerMode ? 'ANIM' : 'STATIC') + ' \u00b7 ESC INDEX';
+})();
+</script>
+
+<!-- ============================================================
+     SLIDES
+     Insert <section class="slide slide-dark|slide-light|slide-brand [slide-hero]"> here.
+     Use .action-title / .body-area / .source-line for 3-row grid.
+     Layout patterns from references/deck-layouts.md
+     ============================================================ -->
+<div id="deck">
+
+
+<!-- ================================================================
+     SLIDE 1 — Cover (Hero Dark)
+     deck-layouts.md: use slide-hero to let WebGL show through.
+     No action-title, no badge, no source-line on cover.
+     Center-align with absolute positioning for maximum visual impact.
+     ================================================================ -->
+<section class="slide slide-dark slide-hero" style="display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding: 0.5in 0.75in;">
+
+  <!-- Top-left: logo -->
+  <div style="position:absolute; top:0.45in; left:0.5in; opacity:0.9;">
+    <!-- FLock lockup white — canonical SVG, height 24px -->
+    <img src="../assets/logos/flock-lockup-white.svg" alt="FLock.io" height="24"
+         onerror="this.outerHTML='<span style=\'font-family:var(--f-font);font-weight:700;font-size:18px;letter-spacing:-0.04em;color:#fff;\'>FLock.io</span>'">
+  </div>
+
+  <!-- Optional top-right: pillar chip or event label -->
+  <div style="position:absolute; top:0.5in; right:0.5in;">
+    <span class="pillar-chip pillar-sovereign f-label">Sovereign AI</span>
+  </div>
+
+  <!-- Center content block -->
+  <div style="max-width:72%; display:flex; flex-direction:column; gap:var(--f-space-xl);">
+    <!-- Eyebrow label -->
+    <div data-anim class="f-label dim" style="color:var(--f-blue);">Real AI. Real Impact.</div>
+
+    <!-- Main title — H1, tight tracking -->
+    <h1 data-anim class="f-h1" style="font-weight:700; color:var(--f-white);">
+      [Deck Title<br>Goes Here]
+    </h1>
+
+    <!-- Subtitle -->
+    <p data-anim class="f-h3 dim-2" style="font-weight:400; max-width:54ch;">
+      Subtitle or tagline that frames the narrative. Keep it under two lines.
+    </p>
+
+    <!-- Bottom rule + meta -->
+    <div data-anim style="display:flex; align-items:center; gap:var(--f-space-xl); margin-top:var(--f-space-lg);">
+      <div class="f-rule" style="width:40px; opacity:0.4;"></div>
+      <span class="f-label dim">Presenter · Date · Event</span>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ================================================================
+     SLIDE 2 — Section Divider (deck-layouts.md #10)
+     No FLock badge. No source line. Ghost section number right side.
+     ================================================================ -->
+<section class="slide slide-dark" style="display:flex; flex-direction:column; justify-content:flex-end; padding:0.5in;">
+
+  <!-- Ghost section number (position:absolute, far right, barely visible) -->
+  <div class="section-num">01</div>
+
+  <div style="max-width:60%; display:flex; flex-direction:column; gap:var(--f-space-xl);">
+    <div data-anim class="f-label" style="color:var(--f-blue);">Section 01</div>
+    <div class="f-rule-blue" style="width:48px; height:2px; background:var(--f-blue); border-radius:1px;"></div>
+    <h2 data-anim class="f-h2" style="font-weight:700; line-height:1.05;">
+      Section Title
+    </h2>
+    <p data-anim class="f-body dim-2" style="max-width:52ch;">
+      Optional section summary. One or two lines that orient the audience before you dive in.
+    </p>
+  </div>
+
+</section>
+
+
+<!-- ================================================================
+     SLIDE 3 — Three-Column Comparison (deck-layouts.md #2)
+     Dark background. Action title + FLock badge top row.
+     3-col body area. Source line bottom.
+     ================================================================ -->
+<section class="slide slide-dark">
+
+  <!-- Row 1: action title + badge -->
+  <div class="action-title">
+    <div data-anim class="action-title title f-body">
+      [Action title: what the audience should conclude from this slide]
+    </div>
+    <!-- FLock badge SVG inline (white lockup) -->
+    <img class="f-badge" src="../assets/logos/flock-lockup-white.svg" alt="FLock.io"
+         onerror="this.outerHTML='<span class=\'f-badge f-label dim\'>FLock.io</span>'" height="18">
+  </div>
+
+  <!-- Row 2: body — split-444 -->
+  <div class="body-area" style="justify-content:center;">
+    <div class="split-444">
+
+      <!-- Column A: Sovereign -->
+      <div data-anim style="display:flex; flex-direction:column; gap:var(--f-space-md);">
+        <span class="pillar-chip pillar-sovereign f-label">Sovereign</span>
+        <div class="f-rule" style="background:var(--f-blue); opacity:0.5;"></div>
+        <h3 class="f-h3 blue" style="font-weight:600;">Column Title A</h3>
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:var(--f-space-sm);">
+          <li class="f-body dim-2">• Key point one</li>
+          <li class="f-body dim-2">• Key point two</li>
+          <li class="f-body dim-2">• Key point three</li>
+        </ul>
+      </div>
+
+      <!-- Column B: Operations -->
+      <div data-anim style="display:flex; flex-direction:column; gap:var(--f-space-md);">
+        <span class="pillar-chip pillar-operations f-label">Operations</span>
+        <div class="f-rule" style="background:var(--f-turquoise); opacity:0.5;"></div>
+        <h3 class="f-h3 turquoise" style="font-weight:600;">Column Title B</h3>
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:var(--f-space-sm);">
+          <li class="f-body dim-2">• Key point one</li>
+          <li class="f-body dim-2">• Key point two</li>
+          <li class="f-body dim-2">• Key point three</li>
+        </ul>
+      </div>
+
+      <!-- Column C: Gateway -->
+      <div data-anim style="display:flex; flex-direction:column; gap:var(--f-space-md);">
+        <span class="pillar-chip pillar-gateway f-label">Gateway</span>
+        <div class="f-rule" style="background:var(--f-purple); opacity:0.5;"></div>
+        <h3 class="f-h3 purple" style="font-weight:600;">Column Title C</h3>
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:var(--f-space-sm);">
+          <li class="f-body dim-2">• Key point one</li>
+          <li class="f-body dim-2">• Key point two</li>
+          <li class="f-body dim-2">• Key point three</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Row 3: source line -->
+  <div class="source-line">
+    <span class="f-label dim">Source: [citation]</span>
+    <span class="f-label dim">Page 3</span>
+  </div>
+
+</section>
+
+
+<!-- ================================================================
+     SLIDE 4 — Hero Stat (deck-layouts.md #11)
+     Dark background. Three large numbers. Minimal text.
+     ================================================================ -->
+<section class="slide slide-dark">
+
+  <div class="action-title">
+    <div data-anim class="action-title title f-body">
+      [Action title: the story behind the numbers]
+    </div>
+    <img class="f-badge" src="../assets/logos/flock-lockup-white.svg" alt="FLock.io"
+         onerror="this.outerHTML='<span class=\'f-badge f-label dim\'>FLock.io</span>'" height="18">
+  </div>
+
+  <div class="body-area" style="justify-content:center;">
+    <div class="split-444" style="align-items:end;">
+
+      <div data-anim class="stat-card">
+        <span class="stat-label f-label">Metric A</span>
+        <span class="stat-num blue">$2.4B</span>
+        <span class="stat-note f-caption dim-2">Context that explains this number briefly.</span>
+      </div>
+
+      <div data-anim class="stat-card">
+        <span class="stat-label f-label">Metric B</span>
+        <span class="stat-num" style="color:var(--f-turquoise);">94%</span>
+        <span class="stat-note f-caption dim-2">Context that explains this number briefly.</span>
+      </div>
+
+      <div data-anim class="stat-card">
+        <span class="stat-label f-label">Metric C</span>
+        <span class="stat-num" style="color:var(--f-orange);">3.2×</span>
+        <span class="stat-note f-caption dim-2">Context that explains this number briefly.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="source-line">
+    <span class="f-label dim">Source: [citation] · [year]</span>
+    <span class="f-label dim">Page 4</span>
+  </div>
+
+</section>
+
+
+<!-- ================================================================
+     SLIDE 5 — Closing CTA (Brand Blue)
+     slide-brand + slide-hero: solid blue bg, WebGL subtle.
+     No badge on closing. Center the tagline.
+     ================================================================ -->
+<section class="slide slide-brand slide-hero" style="display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:0.5in 0.75in;">
+
+  <div style="position:absolute; top:0.45in; left:0.5in; opacity:0.85;">
+    <img src="../assets/logos/flock-lockup-white.svg" alt="FLock.io" height="24"
+         onerror="this.outerHTML='<span style=\'font-family:var(--f-font);font-weight:700;font-size:18px;letter-spacing:-0.04em;color:#fff;\'>FLock.io</span>'">
+  </div>
+
+  <div style="max-width:66%; display:flex; flex-direction:column; gap:var(--f-space-xl);">
+    <h2 data-anim class="f-h2" style="font-weight:700; color:var(--f-white); line-height:1.05;">
+      Real AI.<br>Real Impact.
+    </h2>
+    <p data-anim class="f-body" style="color:rgba(255,255,255,0.82); max-width:48ch;">
+      Closing line, next step, or call to action. Keep it short and bold.
+    </p>
+    <div data-anim style="display:flex; gap:var(--f-space-lg); margin-top:var(--f-space-md);">
+      <span class="f-label" style="color:rgba(255,255,255,0.7);">flock.io</span>
+      <span class="f-label" style="color:rgba(255,255,255,0.7);">·</span>
+      <span class="f-label" style="color:rgba(255,255,255,0.7);">hello@flock.io</span>
+    </div>
+  </div>
+
+</section>
+
+
+</div><!-- /#deck -->
+
+<div id="nav"></div>
+
+
+<!-- ================================================================
+     WebGL: Dual Background Shaders (adapted from guizang for FLock)
+     Dark canvas:  Electric Blue — near-black field with #3773FF plasma
+     Light canvas: Off-White Pearl — FBM noise, F2F2F2 base, blue shimmer
+     Mouse-responsive on both. Degrades gracefully (no WebGL → nothing visible,
+     slides use solid backgrounds). Toggle with B key.
+     ================================================================ -->
+<script>
+const VS = `attribute vec2 position; void main(){ gl_Position = vec4(position, 0.0, 1.0); }`;
+
+/* ------ DARK: Electric Blue (FLock brand blue plasma on near-black) ------ */
+const FS_DARK = `precision highp float;
+uniform vec2 u_resolution; uniform float u_time; uniform vec2 u_mouse;
+
+vec3 palette(float t, vec3 a, vec3 b, vec3 c, vec3 d){
+  return a + b * cos(6.28318 * (c * t + d));
+}
+
+void main(){
+  vec2 uv  = gl_FragCoord.xy / u_resolution.xy;
+  vec2 p   = uv * 2.0 - 1.0;
+  p.x     *= u_resolution.x / u_resolution.y;
+
+  /* Mouse ripple — same as guizang */
+  vec2 m   = u_mouse * 2.0 - 1.0;
+  m.x     *= u_resolution.x / u_resolution.y;
+  float md = length(p - m);
+  float mr = sin(md * 12.0 - u_time * 3.5) * exp(-md * 3.2);
+  p       += mr * 0.06;
+
+  vec2 p0 = p;
+
+  /* Domain warp — tighter, more electric than guizang */
+  for(float i = 1.0; i < 4.0; i++){
+    p.x += 0.08 / i * sin(i * 2.8 * p.y + u_time * 0.35) + 0.04;
+    p.y += 0.08 / i * cos(i * 2.2 * p.x + u_time * 0.28) - 0.04;
+  }
+
+  float r   = length(p);
+  float ang = atan(p.y, p.x);
+
+  /* Palette biased toward FLock brand blue (#3773FF = 0.216, 0.451, 1.0)
+     a: near-black base with slight blue tint
+     b: oscillation emphasising blue channel
+     d: phase offset — 0.5–0.7 in blue = half-cycle sits on blue */
+  vec3 a = vec3(0.02, 0.03, 0.07);
+  vec3 b = vec3(0.02, 0.04, 0.14);
+  vec3 c = vec3(1.0,  1.0,  1.0);
+  vec3 d = vec3(0.18, 0.28, 0.52);
+
+  vec3 col = palette(r * 1.2 + p0.x * 0.45 + u_time * 0.08, a, b, c, d);
+
+  /* Brand blue highlight veins */
+  float disp = sin(r * 22.0 - u_time * 1.2 + ang * 1.8) * 0.5 + 0.5;
+  col += vec3(0.08, 0.18, 0.55) * disp * 0.022;
+
+  /* Soft peak highlights */
+  float hi = pow(sin(p.x * 3.5 + p.y * 2.8 + u_time * 0.7) * 0.5 + 0.5, 7.0);
+  col += vec3(0.12, 0.25, 0.65) * hi * 0.10;
+
+  /* Pull base to near-black */
+  vec3 base = vec3(0.025, 0.030, 0.055);
+  col = mix(base, col, 0.82);
+
+  gl_FragColor = vec4(col, 1.0);
+}`;
+
+/* ------ LIGHT: Off-White Pearl (FBM noise, FLock F2F2F2, blue shimmer) ------ */
+const FS_LIGHT = `precision highp float;
+uniform vec2 u_resolution; uniform float u_time; uniform vec2 u_mouse;
+
+float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+
+float noise(vec2 p){
+  vec2 i = floor(p), f = fract(p);
+  float a = hash(i), b = hash(i + vec2(1.0, 0.0));
+  float c = hash(i + vec2(0.0, 1.0)), d = hash(i + vec2(1.0, 1.0));
+  vec2 u = f * f * (3.0 - 2.0 * f);
+  return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+}
+
+float fbm(vec2 p){
+  float v = 0.0, a = 0.5;
+  mat2 m = mat2(0.80, 0.60, -0.60, 0.80);
+  for(int i = 0; i < 5; i++){ v += a * noise(p); p = m * p * 2.02; a *= 0.5; }
+  return v;
+}
+
+void main(){
+  vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+  vec2 p  = uv; p.x *= u_resolution.x / u_resolution.y;
+  vec2 m  = u_mouse; m.x *= u_resolution.x / u_resolution.y;
+
+  /* Mouse displacement */
+  vec2 md = p - m; float dl = length(md);
+  p += normalize(md + vec2(0.0001)) * exp(-dl * 5.0) * 0.025;
+
+  vec2 q = vec2(fbm(p * 1.8 + u_time * 0.06),  fbm(p * 1.8 + vec2(5.2, 1.3) + u_time * 0.055));
+  vec2 r = vec2(fbm(p * 2.0 + q * 1.3 + vec2(1.7, 9.2) + u_time * 0.045),
+                fbm(p * 2.0 + q * 1.3 + vec2(8.3, 2.8) + u_time * 0.038));
+  float f = fbm(p * 2.2 + r * 1.5);
+
+  /* FLock palette: cool blue-gray → off-white (#F2F2F2) */
+  vec3 coolGray = vec3(0.875, 0.882, 0.910);   /* near --flock-grid-color #E0E4F0 */
+  vec3 offWhite = vec3(0.949, 0.949, 0.949);   /* #F2F2F2 exact */
+  vec3 col = mix(coolGray, offWhite, f);
+
+  /* Subtle brand blue shimmer (very low strength — just a hint) */
+  float ph = r.x * 2.0 + u_time * 0.28;
+  col += vec3(0.216, 0.451, 1.0) * sin(ph) * 0.018;          /* brand blue */
+  col += vec3(0.011, 0.749, 0.831) * sin(ph * 0.75 + 2.0) * 0.012; /* turquoise */
+
+  float hl = smoothstep(0.46, 0.90, f);
+  col += hl * 0.04;
+
+  gl_FragColor = vec4(col, 1.0);
+}`;
+
+/* ---- WebGL bootstrap (identical pattern to guizang) ---- */
+const mouse = { x: 0.5, y: 0.5 };
+addEventListener('mousemove', e => { mouse.x = e.clientX / innerWidth; mouse.y = e.clientY / innerHeight; });
+
+function bootGL(canvasId, fsSrc){
+  const canvas = document.getElementById(canvasId);
+  const gl = canvas.getContext('webgl', { alpha: false, antialias: true });
+  if(!gl) return () => false;
+  const mk = (t, s) => { const sh = gl.createShader(t); gl.shaderSource(sh, s); gl.compileShader(sh); return sh; };
+  const prog = gl.createProgram();
+  gl.attachShader(prog, mk(gl.VERTEX_SHADER, VS));
+  gl.attachShader(prog, mk(gl.FRAGMENT_SHADER, fsSrc));
+  gl.linkProgram(prog); gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'position');
+  gl.enableVertexAttribArray(pos); gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const lRes = gl.getUniformLocation(prog, 'u_resolution');
+  const lT   = gl.getUniformLocation(prog, 'u_time');
+  const lM   = gl.getUniformLocation(prog, 'u_mouse');
+  const resize = () => {
+    const d = Math.min(devicePixelRatio || 1, 2);
+    canvas.width = innerWidth * d; canvas.height = innerHeight * d;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  };
+  addEventListener('resize', resize); resize();
+  return tSec => {
+    gl.uniform2f(lRes, canvas.width, canvas.height);
+    gl.uniform1f(lT, tSec);
+    gl.uniform2f(lM, mouse.x, 1 - mouse.y);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+    return true;
+  };
+}
+
+let drawDark = null, drawLight = null, glRAF = 0, glT0 = Date.now();
+
+function startGL(){
+  if(window.__lowPowerMode || glRAF) return;
+  if(!drawDark)  drawDark  = bootGL('bg-dark',  FS_DARK);
+  if(!drawLight) drawLight = bootGL('bg-light', FS_LIGHT);
+  glT0 = Date.now();
+  function loop(){
+    if(window.__lowPowerMode){ glRAF = 0; return; }
+    const t = (Date.now() - glT0) / 1000;
+    drawDark(t); drawLight(t);
+    glRAF = requestAnimationFrame(loop);
+  }
+  glRAF = requestAnimationFrame(loop);
+}
+function stopGL(){
+  if(glRAF) cancelAnimationFrame(glRAF);
+  glRAF = 0;
+}
+startGL();
+addEventListener('flock-low-power', e => e.detail.on ? stopGL() : startGL());
+</script>
+
+
+<!-- ================================================================
+     Navigation: keyboard / scroll / touch / dots / ESC overview
+     (Identical logic to guizang, hint text updated for FLock)
+     ================================================================ -->
+<script>
+const deck   = document.getElementById('deck');
+const slides = deck.querySelectorAll('.slide');
+const nav    = document.getElementById('nav');
+let idx = 0, total = slides.length, lock = false;
+
+deck.style.width = (total * 100) + 'vw';
+
+slides.forEach((s, i) => {
+  const b = document.createElement('button');
+  b.className = 'dot'; b.dataset.i = i; b.setAttribute('aria-label', 'Page ' + (i + 1));
+  b.onclick = () => go(i);
+  nav.appendChild(b);
+});
+
+function go(n){
+  if(lock) return;
+  idx = Math.max(0, Math.min(total - 1, n));
+  window.__currentSlideIndex = idx;
+  deck.style.transform = `translateX(${-idx * 100}vw)`;
+  nav.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+  /* Light/dark mode switch based on slide variant */
+  const el = slides[idx];
+  const isLight = el.classList.contains('slide-light');
+  document.body.classList.toggle('light-mode', isLight);
+  /* Trigger enter animation mid-transition */
+  if(window.__playSlide) setTimeout(() => window.__playSlide(idx), 440);
+  lock = true; setTimeout(() => lock = false, 680);
+}
+
+/* ESC overview */
+let overviewOn = false;
+const ov = document.createElement('div'); ov.id = 'overview';
+document.body.appendChild(ov);
+
+function buildOverview(){
+  ov.innerHTML = '';
+  const g = document.createElement('div');
+  g.style.cssText = 'display:grid; grid-template-columns:repeat(4,1fr); gap:2vh 1.5vw; max-width:92vw; margin:0 auto; padding-top:3vh;';
+  slides.forEach((s, i) => {
+    const card = document.createElement('div');
+    card.style.cssText = `cursor:pointer; border-radius:6px; overflow:hidden; border:2px solid ${i===idx ? 'rgba(55,115,255,0.9)' : 'rgba(255,255,255,0.12)'}; transition:border-color .2s;`;
+    card.onmouseenter = () => card.style.borderColor = 'rgba(55,115,255,0.6)';
+    card.onmouseleave = () => card.style.borderColor = i===idx ? 'rgba(55,115,255,0.9)' : 'rgba(255,255,255,0.12)';
+    const wrap = document.createElement('div');
+    wrap.style.cssText = `width:100%; aspect-ratio:16/9; overflow:hidden; position:relative; pointer-events:none; background:${s.classList.contains('slide-light') ? '#F2F2F2' : s.classList.contains('slide-brand') ? '#3773FF' : '#000000'};`;
+    const clone = s.cloneNode(true);
+    clone.style.cssText = 'width:100vw; height:100vh; transform:scale(0.22); transform-origin:top left; position:absolute; top:0; left:0; pointer-events:none;';
+    wrap.appendChild(clone);
+    const label = document.createElement('div');
+    label.style.cssText = 'padding:5px 10px; font-family:var(--f-font-mono,monospace); font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#fff; opacity:0.6;';
+    label.textContent = (i + 1) + ' / ' + total;
+    card.appendChild(wrap); card.appendChild(label);
+    card.onclick = () => { toggleOverview(); go(i); };
+    g.appendChild(card);
+  });
+  ov.appendChild(g);
+}
+function toggleOverview(){
+  overviewOn = !overviewOn;
+  if(overviewOn){ buildOverview(); ov.style.display = 'block'; }
+  else ov.style.display = 'none';
+}
+
+/* Keyboard */
+addEventListener('keydown', e => {
+  if(e.key === 'Escape'){ e.preventDefault(); toggleOverview(); return; }
+  if(e.key && e.key.toLowerCase() === 'b' && !e.metaKey && !e.ctrlKey && !e.altKey){
+    e.preventDefault(); window.__setLowPowerMode(!window.__lowPowerMode); return;
+  }
+  if(overviewOn) return;
+  if(['ArrowRight','PageDown',' ','ArrowDown'].includes(e.key)){
+    e.preventDefault();
+    if(window.__pipeAdvance && window.__pipeAdvance()) return;
+    go(idx + 1); return;
+  }
+  if(['ArrowLeft','PageUp','ArrowUp'].includes(e.key)){ e.preventDefault(); go(idx - 1); }
+  if(e.key === 'Home') go(0);
+  if(e.key === 'End')  go(total - 1);
+});
+
+/* Scroll */
+let wheelTO = null, wheelAcc = 0;
+addEventListener('wheel', e => {
+  wheelAcc += e.deltaY + e.deltaX;
+  if(Math.abs(wheelAcc) > 55){
+    if(wheelAcc > 0 && window.__pipeAdvance && window.__pipeAdvance()){ wheelAcc = 0; return; }
+    go(idx + (wheelAcc > 0 ? 1 : -1)); wheelAcc = 0;
+  } else { clearTimeout(wheelTO); wheelTO = setTimeout(() => wheelAcc = 0, 150); }
+}, { passive: true });
+
+/* Touch */
+let tx = 0, ty = 0;
+addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  const dy = e.changedTouches[0].clientY - ty;
+  if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)){
+    if(dx < 0 && window.__pipeAdvance && window.__pipeAdvance()) return;
+    go(idx + (dx < 0 ? 1 : -1));
+  }
+}, { passive: true });
+
+go(0);
+</script>
+
+
+<!-- ================================================================
+     Motion One animation engine
+     Same recipe system as guizang (cascade/hero/directional/pipeline/quote).
+     Load order: CDN (no local copy needed for this template).
+     Falls back gracefully: all [data-anim] become visible on load failure.
+     ================================================================ -->
+<script type="module">
+let motion;
+try {
+  motion = await import('https://cdn.jsdelivr.net/npm/motion@11.11.17/+esm');
+} catch(e) {
+  console.warn('[flock-deck] Motion One failed to load — disabling animations');
+  document.querySelectorAll('[data-anim]').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+  document.querySelectorAll('[data-animate="pipeline"] [data-anim]').forEach(el => el.style.opacity = '1');
+}
+
+if(motion){
+  const { animate, stagger } = motion;
+  document.body.classList.add('motion-ready');
+
+  /* Motion 值从 :root token 派生 — checklist.md §P1 动效纪律。
+     不在此处自创 duration / 缓动数值；改时长改 token，不改这里。 */
+  const css = getComputedStyle(document.documentElement);
+  const ms  = name => (parseFloat(css.getPropertyValue(name)) || 0) / 1000; // ms token → 秒
+  const DUR = {
+    micro: ms('--f-dur-micro'),   // 0.11s
+    minor: ms('--f-dur-minor'),   // 0.20s
+    major: ms('--f-dur-major'),   // 0.40s
+  };
+  const EASE_OUT = [0.16, 1, 0.30, 1];   // = --f-ease-out
+  const STAGGER  = 0.09;                 // 级联间隔（一档，固定）
+
+  const allSlides = [...document.querySelectorAll('.slide')];
+  let pipeStep = -1, lastIdx = -1;
+
+  function resetAnims(slide){
+    slide.querySelectorAll('[data-anim]').forEach(el => { el.style.opacity = ''; el.style.transform = ''; });
+  }
+
+  function revealAll(slide){
+    resetAnims(slide);
+    document.getAnimations?.().forEach(a => a.cancel());
+    slide.querySelectorAll('[data-anim]').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+  }
+
+  function playSlide(i){
+    const slide = allSlides[i]; if(!slide) return;
+    lastIdx = i;
+    const recipe = slide.dataset.animate || (slide.classList.contains('slide-hero') ? 'hero' : 'cascade');
+
+    if(window.__lowPowerMode){ revealAll(slide); return; }
+    if(recipe === 'pipeline'){
+      pipeStep = -1;
+      slide.querySelectorAll('[data-anim]').forEach(el => { el.style.opacity = '0.1'; el.style.transform = 'none'; });
+      return;
+    }
+
+    resetAnims(slide);
+    const all = [...slide.querySelectorAll('[data-anim]')];
+    if(!all.length) return;
+
+    if(recipe === 'directional'){
+      const lefts  = all.filter(el => el.dataset.anim === 'left');
+      const rights = all.filter(el => el.dataset.anim === 'right');
+      const divs   = all.filter(el => el.dataset.anim === 'divider');
+      const others = all.filter(el => !['left','right','divider'].includes(el.dataset.anim));
+      if(others.length) animate(others, {opacity:[0,1], y:[10,0]}, {duration:DUR.major, delay:stagger(STAGGER, {start:DUR.micro}), easing:EASE_OUT});
+      if(lefts.length)  animate(lefts,  {opacity:[0,1], x:[-20,0]}, {duration:DUR.major, delay:DUR.major, easing:EASE_OUT});
+      if(divs.length)   animate(divs,   {opacity:[0,.2]}, {duration:DUR.major, delay:DUR.major * 2});
+      if(rights.length) animate(rights, {opacity:[0,1], x:[20,0]},  {duration:DUR.major, delay:DUR.major * 2.4, easing:EASE_OUT});
+      return;
+    }
+
+    if(recipe === 'hero'){
+      animate(all, {opacity:[0,1], y:[12,0]}, {duration:DUR.major, delay:stagger(STAGGER * 2, {start:DUR.minor}), easing:EASE_OUT});
+      return;
+    }
+
+    /* default: cascade */
+    animate(all, {opacity:[0,1], y:[12,0]}, {duration:DUR.major, delay:stagger(STAGGER, {start:DUR.micro}), easing:EASE_OUT});
+  }
+
+  function pipeAdvance(){
+    if(window.__lowPowerMode) return false;
+    const slide = allSlides[lastIdx];
+    if(!slide || slide.dataset.animate !== 'pipeline') return false;
+    const steps  = [...slide.querySelectorAll('[data-anim="step"]')];
+    const arrows = [...slide.querySelectorAll('[data-anim="arrow"]')];
+    if(pipeStep >= steps.length - 1) return false;
+    pipeStep++;
+    animate(steps[pipeStep], {opacity:[0.1,1], y:[6,0]}, {duration:DUR.major, easing:EASE_OUT});
+    if(pipeStep > 0 && arrows[pipeStep-1])
+      animate(arrows[pipeStep-1], {opacity:[0.1,.65]}, {duration:DUR.minor, delay:DUR.micro});
+    return true;
+  }
+
+  window.__playSlide   = playSlide;
+  window.__pipeAdvance = pipeAdvance;
+  playSlide(0); /* first slide */
+}
+</script>
+
+</body>
+</html>

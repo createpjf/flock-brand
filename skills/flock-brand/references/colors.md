@@ -144,3 +144,28 @@ When reviewing an artifact, flag any of these immediately:
 - ❌ Secondary color (Orange/Turquoise/Purple) as the page background
 - ❌ Two pillar colors competing on the same content panel
 - ❌ Brand Blue `#3773FF` mixed at low opacity producing a non-canonical pastel — use the explicit Tint hex from §2.1
+
+---
+
+## 5. Off-brand → FLock 重映射表（fix 任务专用）
+
+修复继承来的 deck 时,off-brand 颜色按**语义**映射到 FLock 调色板,不是只换主蓝。
+机器执行版在 `scripts/pptx_lint.py` 的 `REMAP` 字典 —— 那里是单一事实源,本表为人读摘要。
+
+| 语义 | 常见 off-brand hex | → FLock |
+|---|---|---|
+| 主蓝(Tailwind blue 等) | `2D72F8` `2C68F0` `3B82F6` `2563EB` `1D4ED8` `1A4FB0` | `#3773FF` Brand Blue |
+| 浅蓝 accent | `60A5FA` `93C5FD` | `#98B8F8` Blue Tint |
+| 红 / 警示 | `DC2626` `EF4444` | `#FF8B00` Orange（FLock 无红,警示语义归 Orange） |
+| 浅红底 | `FEE4E4` `FEE2E2` | `#F8D0A8` Orange Tint |
+| 绿 / 青 | `0D9488` `0891B2` `10B981` | `#03BFD4` Turquoise |
+| 浅绿底 | `ECFDF5` `D1FAE5` | `#B8E8F0` Teal Tint |
+| 粉 / 紫 | `BE185D` `7C3AED` `8B5CF6` | `#9C59F3` Purple |
+| 浅紫/粉底 | `FCE7F3` `EDE9FE` | `#D0B8F8` Purple Tint |
+| 黄 / 琥珀 | `D97706` `F59E0B` | `#FF8B00` Orange |
+| 浅黄底 | `FEF3C7` `FFEDD5` | `#F8D0A8` Orange Tint |
+| 灰边框 | `DCE5F0` `D1D5DB` | `#E0E4F0` border |
+
+**容忍不替换**：中性灰文字色（`1F2937` `4B5563` `6B7280` 等)在 fix 任务中可保留 —— 全换成纯黑会破坏原 deck 的层级灰阶,除非用户要求完全重做配色。
+
+**成功语义例外**：原 deck 用绿表示「成功/通过」时,映射到 `#22B473`（FLock green）而非 Turquoise。

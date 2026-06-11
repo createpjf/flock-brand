@@ -230,7 +230,11 @@ Use this when the user has a corporate template they need updated, **not** when 
 5. **Repack**: `python -m office.pack /tmp/deck-unpacked output.pptx`
 6. **Verify**: `markitdown output.pptx` (text), then visual audit (next section)
 
-**Forbidden**: don't run `sed`, `awk`, or `xml.etree.ElementTree` on these files — they break the namespace. Use the Edit tool, or `defusedxml.minidom` if you must script it.
+**sed/awk 使用边界**（重要,不是一刀切禁令）:
+- ✅ **属性值替换安全** — `sed -i 's/val="2D72F8"/val="3773FF"/g' ppt/slides/*.xml` 这类只动引号内值、不碰标签结构的替换,是批量颜色归一的最快手段,放心用
+- ✅ 同理安全：坐标值 `<a:off x="...">`、字号等纯数值属性的精确替换（old 串必须含完整上下文确保唯一）
+- ❌ **结构性编辑禁用 sed/awk** — 增删元素、移动标签、改命名空间、多行结构操作,必须用 Edit 工具或 `defusedxml.minidom`;`xml.etree.ElementTree` 会重写命名空间前缀,同样禁用
+- 判断标准：替换前后 XML 树结构是否完全一致。一致 → sed 可用;不一致 → Edit 工具
 
 ---
 
